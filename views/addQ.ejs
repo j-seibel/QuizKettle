@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/register.css" type=text/css>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div id=logindiv>
+        <h1 id = header>Add Questions</h1>
+        <form id='loginForm'>
+            <div id=email class = 'formWrapper'>
+                <label for='question' class='formElLabel'> Question</label><br>
+                <input type='text' class='formEl' name=email required placeholder = "Question"><br>
+                <p id = emailError class = error></p>
+            </div>
+
+            <div id=username class = 'formWrapper'>
+                <label for='username' class='formElLabel'> Acceptible Answers (Sperate by commas)</label><br>
+                <input type='text' class='formEl' name=username required placeholder = "answers"><br>
+                <p id = usernameError class = error></p>
+            </div>
+            <div id=catagory class = 'formWrapper'>
+                <label for = "catagory">Catagory:</label>
+                <select id = catagory name = "catagory">
+                    <option value = History> History</option>
+                    <option value = Science> Science</option>
+                    <option value = Math>Math</option>
+                    <option value = Lit>Lit</option>
+                    <option value = Grammer>Grammer</option>
+                    <option value = Geography>Geography</option>
+                    <option value = Other>Other</option>
+                </select>
+                
+            </div>
+            <div id=submit>
+                <input type='submit' value='Submit'>
+            </div>
+        </form>
+    </div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/question.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+    integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</html>

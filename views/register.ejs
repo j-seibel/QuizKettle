@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/register.css" type=text/css>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div id=logindiv>
+        <h1 id = header>Register</h1>
+        <form id='loginForm'>
+            <div id=email class = 'formWrapper'>
+                <label for='email' class='formElLabel'> Email</label><br>
+                <input type='email' class='formEl' name=email required placeholder = "Email"><br>
+                <p id = emailError class = error></p>
+            </div>
+
+            <div id=username class = 'formWrapper'>
+                <label for='username' class='formElLabel'> Username</label><br>
+                <input type='text' class='formEl' name=username required placeholder = "Username"><br>
+                <p id = usernameError class = error></p>
+            </div>
+            <div id=password class = 'formWrapper'>
+                <label for='password' class='formElLabel'> Password</label><br>
+                <input type='password' class='formEl' name=password required placeholder = "Password"><br>
+                <p id = passwordError class = error></p>
+            </div>
+            <div id=confirmPassword class = 'formWrapper'>
+                <label for='confirmPassword' class='formElLabel' name= confirmPassword> Repeat Password</label><br>
+                <input type='password' class='formEl' name=confirmPassowrd required placeholder = "I dont want you forgetting"><br><br>
+                <p id = confirmError class = error></p>
+            </div>
+            <div id=catagory class = 'formWrapper'>
+                <label for = "school">Select School:</label>
+                <select id = "school" name = "school">
+                    <option value = "Elkhorn North High School"> Elkhorn North High School</option>
+                    <option value = "Elkhorn South High School"> Elkhorn South High School</option>
+                    <option value = "Elkhron High School">Elkhron High School</option>
+                    <option value = Other>Other</option>
+                </select>
+                
+            </div>
+            <div id=submit>
+                <input type='submit' value='Submit'>
+            </div>
+        </form>
+    </div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/register.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+    integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</html>

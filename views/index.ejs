@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://kit.fontawesome.com/b1eeecd7e8.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <header>
+    </header>
+    <nav>
+        <a href = "/stats">Stats</a>
+        <a href = "/login">Login</a>
+        <h1>QuizKettle</h1>
+        <a href = "/"> Info</a>
+        <a href = "/">Donate </a>
+    </nav>
+    <div id =bigContainer>
+    <div id = mainContainer>
+    <div id = "ansDiv">
+        <button class = button id = "buzz" onclick = 'buzz()'>Buzz</button> 
+        <span></span>
+        <input id = "ansBox" type="text" placeholder = "Type Answer Here" disabled = 'true'></input>
+        <button class = button id= next onclick = 'nextQ()'>Next</button>
+        <div id = 'timer_div'><p id = timer>10.00</p></div>
+    </div>
+    <div id="wrapper" display="flex" >
+        <table id="sLeaderboard" class="lb">
+            <thead>
+                <tr>
+                    <th scope="col"><b>School</b> </th>
+                    <th scope="col"><b>Score</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class = "school firstplace">school 1</th>
+                    <th class = " schoolScore firstplace">score 1</th>
+                </tr>
+                <tr>
+                    <th class = "school secondplace">school 2</th>
+                    <th class = " schoolScore secondplace">score 2</th>
+                </tr>
+                <tr>
+                    <th class = "school thirdplace">school 3</th>
+                    <th class = " schoolScore thirdplace">score 3</th>
+                </tr>
+                <tr>
+                    <th class = "school" >school 4</th>
+                    <th class="schoolScore">score 4</th>
+                </tr>
+                <tr>
+                    <th class = "school" >school 1</th>
+                    <th class="schoolScore">score 1</th>
+                </tr>
+            </tbody>
+        </table>
+        <div id = "Qdiv">
+            <div id = "qInfo"><p class = qInfor id = "answer"> </p><p class = qInfo id = 'catagory'></p></div>
+            <p id="questionP"></p>
+        </div>
+        <table id="pLeaderboard" class="lb">
+            <thead>
+                <tr>
+                    <th scope="col" >Player </th>
+                    <th scope="col"> Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class = "Player firstplace"></th>
+                    <th class = "Score firstplace"></th>
+                </tr>
+                <tr>
+                    <th class = "Player secondplace"></th>
+                    <th class = "Score secondplace"></th>
+                </tr>
+                <tr>
+                    <th class = "Player thirdplace"></th>
+                    <th class= "Score thirdplace"></th>
+                </tr>
+                <tr>
+                    <th class="Player"></th>
+                    <th class = "Score "></th>
+                </tr>
+                <tr>
+                    <th class="Player"></th>
+                    <th class = Score></th>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    </div>
+    <hr style = 'background-color: black; height: 3px; width: 100%; color: black; margin-top: 10px'>
+    <div class = 'history-container' id = "history-container">
+        
+    </div>
+    </div>
+    
+</body>
+<script src = "tablesort.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src = "index.js"></script>
+<script src = "validator.js"></script>
+<script src="socket.js"></script>
+
+
+
+</html>

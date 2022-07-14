@@ -1,0 +1,237 @@
+html{
+    font-size: 1.5em;
+    font-family: Arial;
+} 
+#wrapper{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+table{
+    border: solid black;
+    border-radius: 20px;
+    border-collapse: collapse;
+}
+#sLeaderboard{
+    margin-right: 30px;
+    margin-left: 10px;
+}
+#pLeaderboard{
+    margin-left: 30px;
+    margin-right: 30px;
+ }
+
+th{
+    border: solid black;
+    padding: 10px;
+}
+
+#Qdiv{
+    display:flex;
+    flex-flow:column;
+    border: solid black 2px;
+    width: 55%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 15px;
+   
+}
+#qInfo{
+    display:flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+    padding: 5px;
+    margin:1px;
+    height: 25px;
+}
+.qInfo{
+    padding: 1px;
+    margin: 1px;
+}
+#qP{
+    padding: 5px;
+}
+#ansBox{
+    width: 40%;
+    display:inline-block;
+}
+.button{
+    background: #00FF00;
+    color: black;
+    width: 50px;
+    
+}
+
+#timer_div{
+    margin-left:10.5%;
+    margin-right: 5.5%;
+    border: 2px solid black;
+   
+}
+
+#timer{
+    color: red;
+    margin:0px;
+    margin-left: 20px;
+    padding-right: 20px;
+}
+
+
+#ansDiv{
+    display: flex;
+    flex-flow: row;
+    justify-content:flex-end;
+    margin-bottom: 20px;
+    height: 30px;
+    margin-top: 10px;
+}
+.firstplace{
+    background-color: gold;
+}
+.secondplace{
+    background-color: silver;
+}
+.thirdplace{
+    background-color: rgb(205, 127, 50);
+}
+
+body{
+    margin-top: 0px;
+    min-height: 800px;
+}
+
+h1{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+    background-color: limegreen;
+    padding: 5px;
+    font-weight: 700;
+    border: 2px double blue;
+    
+}
+a:visited{
+    text-decoration: none;
+    color: black;
+}
+
+nav{
+    display:flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 5px solid green;
+    margin:0px;
+    padding: 0px;
+    margin-bottom: 30px;
+    background-color: lightskyblue;
+
+
+}
+
+#mainContainer{
+    width: 100%
+}
+
+.history-container{
+    display:flex;
+    flex-flow: column-reverse;
+    align-items: left;
+    width: 65%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    
+}
+#bigContainer{
+    display:flex;
+    flex-flow:column;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid red;
+}
+.historyEl{
+    display: inline-block;
+    margin: 4px;
+    margin-left: 5px;
+
+}
+.Qhistory{
+    border: 2px solid black;
+    border-radius: 20px;
+    border-collapse: collapse;
+}
+.Anshistory{
+   border-collapse: collapse;
+}
+.historyEL{
+    font-size: 50%;
+}
+.correct{
+    padding-right: 2px;
+    padding-left: 2px;
+    margin-top: -5px;
+    background-color: green; 
+    border:  3px solid black;
+    border-radius: 10px;
+    height: 25px;
+}
+.Anshistory{
+    margin-top: 3px;
+}
+
+.incorrect{
+    padding-right: 2px;
+    padding-left: 2px;
+    margin-top: -5px;
+    background-color: red; 
+    border:  3px solid black;
+    border-radius: 10px;
+    height: 25px;
+}
+
+.collapsible {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    padding: 2px;
+    width: 100%;
+    border: solid black 2px;
+    border-radius: 7px;
+    border-bottom: 2px solid black;
+    text-align: left;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-size: 1rem;
+    margin-top: 3px;
+  }
+  
+  i{
+    color: red;
+  }
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+
+  
+  /* Style the collapsible content. Note: hidden by default */
+  .content {
+    padding: 0 2px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    border: 2px solid black;
+    border-radius: 7px;
+    border-top: 0px;
+    font-size: 1rem;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    
+  }
+
+
+
