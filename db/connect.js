@@ -1,20 +1,16 @@
 const mongoose = require('mongoose');
 require("dotenv").config()
 
-const aws = require('aws-sdk');
+let DB_URI = procces.env.DB_URI;
 
-let s3 = new aws.S3({
-  DB_URI: process.env.DB_URI,
-});
 
-console.log(s3.DB_URI);
 
 
 
 // connects to database
 async function QuestionDB(){
     console.log("connected to db");
-    return mongoose.connect(s3.DB_URI);
+    return mongoose.connect(DB_URI);
  }
 
  
