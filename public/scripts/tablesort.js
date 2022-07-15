@@ -12,7 +12,7 @@ function sortTable(scoreList , schoolScoreList){
     schoolScoreList.sort((a,b)=> (a.score <b.score)? 1: -1);
     const mySchoolScore = schoolScoreList.find(score => score.name === user.school);
     schoolScoreList.splice(schoolScoreList.indexOf(mySchoolScore),1);
-    let newSchoolScores = [mySchoolScore, schoolScoreList[0], schoolScoreList[1], schoolScoreList[2], schoolScoreList[3]];
+    let newSchoolScores = [mySchoolScore, schoolScoreList[0], schoolScoreList[1]];
     newSchoolScores.sort((a,b)=> (a.score <b.score)? 1: -1);
     
     
@@ -20,8 +20,11 @@ function sortTable(scoreList , schoolScoreList){
     for(var i =0; i< 5; i++){
        players[i].innerHTML = newScores[i].username;
         scores[i].innerHTML = newScores[i].score;
-        schools[i].innerHTML = newSchoolScores[i].name;
-        schoolScores[i].innerHTML = newSchoolScores[i].score;
+        if(i < 3){
+            schools[i].innerHTML = newSchoolScores[i].name;
+            schoolScores[i].innerHTML = newSchoolScores[i].score;
+        }
+        
     }
     
 

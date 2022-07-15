@@ -9,13 +9,13 @@ const history_div = document.getElementById('history-container')
 const live = document.getElementById('live')
 const answer = document.getElementById('answer');
 const catagory = document.getElementById('catagory');
-
+const NAQT = document.getElementById('NAQT')
 let user;
 let hasBuzzed = false;
 let questionEnd = false;
 let questionRead = false;
 let chat = false;
-let login = true;
+
 
 
 
@@ -40,7 +40,7 @@ function nextQ() {
 //handels the users buzz timeout is buzzer timer
 
 function buzz() {
-    if(login && !questionEnd && !hasBuzzed ){}
+    if(!questionEnd && !hasBuzzed ){
     ibox.disabled = false;
     qBox.innerHTML += `<i class="fa-solid fa-stop"></i>`;
     history_div.innerHTML += `<div class = ${user.username}> <p class = "historyEl"> ${user.username}:</p> </div>`;
@@ -48,6 +48,7 @@ function buzz() {
     ibox.focus();
     socket.emit('buzz', {id: socket.id, user});
     blockbuzz();
+    }
 }
 // resets end timer when it is interupted by a buzz;
 //turns off buzzer and sets timer for all clinets
@@ -71,9 +72,8 @@ function submitans() {
     socket.emit('validate', {playerAnswer, username: user.username});
     ibox.value = "";
     ibox.disabled = true;
+    ibox.blur();
     
-
-
 }
 
 //submits and processes a users chat message
@@ -106,7 +106,7 @@ document.body.onkeydown = (e) => {
     if(e.target.nodeName !== "INPUT"){
     switch (e.key) {
         case " ":
-            if (!questionEnd && !hasBuzzed && login){
+            if (!questionEnd && !hasBuzzed){
                 buzz();
                 
             }
@@ -132,17 +132,15 @@ document.body.onkeydown = (e) => {
 async function resumeSession(){
    user = await axios.get("/login/user")
    if(!user || !user.data){
-    login = false;
-     qBox.innerHTML = "Please login to play!";
-    
-    
+     location.href = '/login';
    }
    getStatus();
    user = user.data;
 
 }
 function getStatus(){
- socket.emit('status' , user.data);
+    
+ socket.emit('status' ,{user: user.data.username});
 
 }
 
@@ -162,6 +160,11 @@ function collapse(){
       });
     }
 }
+
+NAQT.addEventListener('input', (e)=>{
+    socket.emit('NAQT', {checked: NAQT.checked})
+    NAQT.blur();
+})
 
 resumeSession()
 

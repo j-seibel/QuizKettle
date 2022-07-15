@@ -1,5 +1,6 @@
-const validate = require('../validator')
-const getRandomQ = require('../getRandomQ');
+const validate = require('../validator');
+const validateNAQT = require('../NAQTvalidator');
+const {getRandomQ, loadQuestions} = require('../getRandomQ');
 const { updateScore, linkSocket, getScoreList, getSchoolScoreList} = require('../scoreboard');
 const addHistory = require('../recordHistory');
 let hasBuzzed = false;
@@ -7,6 +8,7 @@ let questionEnd = true;
 let questionRead = true;
 let defaultans;
 let readID;
+let NAQT = true;
 let endTimerID;
 let start_time = 10.001;
 let oldQuestion = "";
@@ -16,17 +18,22 @@ let ans = "";
 let catagory= ""
 let oldCatagory =""
 let nextCatagory = "";
-let question =  getRandomQ().then(result=>{
+let nextQuestion = ""; 
+let question = ""
+let questionsetup = async ()=>{
+    await loadQuestions()
+    getRandomQ(NAQT).then(result=>{
     question = result.question;
     ans = result.answer;
     catagory = result.catagory;
-});
-let nextQuestion = getRandomQ().then(result=>{
+    });
+    getRandomQ(NAQT).then(result=>{
     nextQuestion = result.question;
     nextAnswer = result.answer;
     nextCatagory = result.catagory;
-});
-let user = null;
+    });
+}
+questionsetup();
 let sendArr;
 
 
@@ -39,7 +46,7 @@ module.exports = function(io){
             if(data){
           linkSocket(data.username, socket.id)
             }
-            io.to(socket.id).emit('status', {questionEnd, sendArr, scoreList: getScoreList(), schoolScoreList: getSchoolScoreList()} )
+            io.to(socket.id).emit('status', {questionEnd, sendArr, scoreList: getScoreList(), schoolScoreList: getSchoolScoreList(), user: data.user, settings:{NAQT: NAQT}} )
             
         })
 
@@ -60,18 +67,18 @@ module.exports = function(io){
                        clearInterval(readID);
                        endTimerID = setInterval(()=>{
                         if(!hasBuzzed){
-                        start_time -=0.2;
+                        start_time -=0.1;
                         io.emit('updateEndTimer', start_time);
                         }
-                        if(start_time < 0.2){
+                        if(start_time < 0.1){
                             start_time =10.001;
                             questionEnd = true;
                             questionRead = true;
                             clearInterval(endTimerID);
-                            io.emit('timerToZero');
+                            io.emit('timerToZero', ({answer: oldAnswer, catagory: oldCatagory}));
                         }
         
-                       }, 200);
+                       }, 100);
                        // sets up end of question timer
                    }
             
@@ -86,22 +93,22 @@ module.exports = function(io){
         socket.on('buzz', (data)=>{
             user = data.user;
             hasBuzzed = true;
-            let anstime = 7.001
+            let anstime = 10.01;
             sendArr += "<i class='fa-solid fa-stop'></i> "
             const buzztimer = setInterval(()=>{
                 if(hasBuzzed){
-                    anstime -= 0.2;
+                    anstime -= 0.1;
                     io.emit('updateTimer', anstime);
                 }else{
                     clearInterval(buzztimer)
                 }
                 
 
-            }, 200);
+            }, 100);
             defaultans = setTimeout(()=>{
                 io.to(data.id).emit('defaultans')
                 //socket.broadcast.emit('submit');
-            }, 7000);
+            }, 10000);
 
 
             socket.broadcast.emit('buzz', data);
@@ -122,7 +129,7 @@ module.exports = function(io){
             ans = nextAnswer;
             oldCatagory = catagory
             catagory = nextCatagory;
-            nextQuestion = getRandomQ().then(result =>{
+            nextQuestion = getRandomQ(NAQT).then(result =>{
                 nextQuestion = result.question;
                 nextAnswer = result.answer;
                 nextCatagory = result.catagory;
@@ -137,7 +144,7 @@ module.exports = function(io){
         socket.on('validate', (data)=>{
             clearTimeout(defaultans);
             hasBuzzed = false;
-            const right = validate(data.playerAnswer.toLowerCase(), oldAnswer.toLowerCase())
+            const right = NAQT ? validateNAQT(data.playerAnswer.toLowerCase(), oldAnswer.toLowerCase()):validate(data.playerAnswer.toLowerCase(), oldAnswer.toLowerCase())
             if(right){
                 updateScore(data.username);
                 const status = `<p class = 'historyEl correct'>correct</p> `;
@@ -150,15 +157,29 @@ module.exports = function(io){
                
             }else{
                 const status = `<p class = 'historyEl incorrect'>incorrect</p>`;
-                const newData = {correct: false, status};
+                const newData = {correct: false, status, user: data.username};
                 io.emit('incorrect' , newData)
                 io.emit('updateEndTimer', start_time);
 
             }
-            addHistory(data.username, right, oldCatagory );
+            addHistory(data.username, right, oldCatagory, NAQT );
         })
         socket.on('chat', (data)=>{
             socket.broadcast.emit('chat', data);
+        })
+        socket.on('NAQT', (data)=>{
+            NAQT = data.checked
+            question =  getRandomQ(NAQT).then(result=>{
+                question = result.question;
+                ans = result.answer;
+                catagory = result.catagory;
+            });
+            nextQuestion = getRandomQ(NAQT).then(result=>{
+                nextQuestion = result.question;
+                nextAnswer = result.answer;
+                nextCatagory = result.catagory;
+            });
+            socket.broadcast.emit('NAQT', {checked: NAQT});
         })
     })
     

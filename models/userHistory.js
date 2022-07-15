@@ -8,7 +8,13 @@ const HistorySchema = new mongoose.Schema({
   questionHistory: {
     type: Array,
     default: [],
-}
+  },
+  naqtquestionHistory:{
+    type: Array,
+    defualt: []
+  }
+  
+
 })
 
 module.exports = mongoose.model('userHistory' ,HistorySchema )

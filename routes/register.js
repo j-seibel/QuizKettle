@@ -10,7 +10,7 @@ const userHistory = require('../models/userHistory');
 router.route('/').get( async (req, res)=>{
     const temp = await User.findOne({session: req.sessionID})
     if(temp){
-        res.render('index.ejs')
+        return res.render('index.ejs')
     }
     res.render('login.ejs')})
 .post(async (req, res)=>{

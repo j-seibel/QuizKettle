@@ -1,8 +1,8 @@
 
 const socket = io('https://quizkettle.herokuapp.com')
+//const socket = io('localhost:5000')
 socket.on('connection')
 
-if(login){
 
 // handels other players buzzes
 socket.on('buzz', (data)=>{
@@ -15,11 +15,18 @@ socket.on('chat', (data)=>{
 })
 socket.on('status', (data)=>{
     questionEnd = data.questionEnd;
+    history_div.innerHTML += `<div class = ${data.user}> <p class = "historyEl"> ${data.user} has joined the lobby! </p> </div>`
     if(data.sendArr){
         qBox.innerHTML = (data.sendArr);
     }
     sortTable(data.scoreList, data.schoolScoreList);
+    NAQT.checked = data.settings.NAQT;
 
+})
+
+socket.on('NAQT',(data)=>{
+    NAQT.checked = data.checked;
+    console.log(data.checked);
 })
 
 socket.on('updateQ', (newQ)=>{
@@ -40,20 +47,22 @@ socket.on('next', (data) =>{
 })
 
 socket.on('updateTimer', (buzztimer)=>{
-    timer.innerHTML = buzztimer.toFixed(2);
+    timer.innerHTML = buzztimer.toFixed(1);
 })
 
 socket.on('updateEndTimer', (start_time) =>{
-    timer.innerHTML = start_time.toFixed(2);
+    timer.innerHTML = start_time.toFixed(1);
 })
-socket.on('timerToZero', ()=>{
+socket.on('timerToZero', (data)=>{
     timer.innerHTML = 0.00;
     questionEnd = true;
     questionRead = true;
     hasBuzzed = false;
+    answer.innerHTML = data.answer.split(",")[0];
+    catagory.innerHTML = data.catagory;
 })
 socket.on('resetEndTimer', ()=>{
-    timer.innerHTML = 10.001.toFixed(2);
+    timer.innerHTML = 10.001.toFixed(1);
 })
 socket.on('updateLive' , (liveMsg)=>{
     const updateBoxArr = document.getElementsByClassName(`${liveMsg.username}`);
@@ -69,7 +78,6 @@ socket.on('correct' , (data) =>{
     catagory.innerHTML = data.catagory;
     collapse();
     hasBuzzed = false;
-    ibox.blur();
     questionRead = true;
     qBox.innerHTML = data.question;
     sortTable(data.scoreList, data.schoolScoreList);
@@ -80,11 +88,9 @@ socket.on('incorrect' , (data) =>{
     updateBoxArr[updateBoxArr.length - 1].innerHTML += data.status;
     collapse();
     questionEnd = false;
-    ibox.blur();
     buzzer.enabled = true;
     buzzer.style.visibility = "visible"
 })
-}
 
 
 // makes sure that the timer is reset and there are no default answers
@@ -98,7 +104,7 @@ function resetDefaultStates(){
     buzzer.style.visibility = "visible";
     qBox.innerHTML = "";
     next_btn.enabled = false;
-    timer.innerHTML = 10.001.toFixed(2)
+    timer.innerHTML = 10.001.toFixed(1)
 }
 
 ibox.addEventListener('input', updateLive);

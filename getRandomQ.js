@@ -1,18 +1,25 @@
 const Question = require('./models/Question');
-let newQ;
+const NAQT = require('./models/NAQT')
+var questionArr;
+var NAQTquestionArr;
+async function loadQuestions(){
+    questionArr = await Question.find();
+    NAQTquestionArr = await NAQT.find();
+    console.log('questions loaded')
 
-async function getRandomQ(){
-    async function wrapper(){
-        let count = await Question.count()
-        let random = Math.floor(Math.random() * count);
-        let result = await Question.findOne().skip(random)
-        newQ = result;
+}
+
+async function getRandomQ(NATQ){
+    if(NATQ){
+    const rand = Math.round((Math.random() * NAQTquestionArr.length))
+    return NAQTquestionArr[rand];
+    }else{
+    const rand = Math.round((Math.random() * questionArr.length))
+    return questionArr[rand];
     }
-
-    await wrapper();
-    return newQ;
-   
 }
 
 
-module.exports = getRandomQ;
+
+
+module.exports = {getRandomQ, loadQuestions};
