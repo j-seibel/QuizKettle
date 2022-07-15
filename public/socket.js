@@ -1,5 +1,5 @@
 
-const socket = io('http://localhost:5000')
+const socket = io('https://quizkettle.herokuapp.com')
 socket.on('connection')
 
 if(login){
