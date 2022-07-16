@@ -12,29 +12,45 @@ let NAQT = true;
 let endTimerID;
 let start_time = 10.001;
 let oldQuestion = "";
-let nextAnswer = "";
 let oldAnswer = "";
 let ans = "";
 let catagory= ""
 let oldCatagory =""
-let nextCatagory = "";
-let nextQuestion = ""; 
 let question = ""
+let nextQuestion = "";
+let nextCatagory = '';
+let nextAnswer = "";
+let NAQTcategoryArray=['History','Science','Geography','Fine Arts','Current Events','Mythology','Religion','Philosophy','Social Studies','Literature','Trash'];
+let KMcategoryArray =['History','Geography','Math','Science','Lit','Grammer','Other']
 let questionsetup = async ()=>{
     await loadQuestions()
-    getRandomQ(NAQT).then(result=>{
-    question = result.question;
-    ans = result.answer;
-    catagory = result.catagory;
-    });
-    getRandomQ(NAQT).then(result=>{
-    nextQuestion = result.question;
-    nextAnswer = result.answer;
-    nextCatagory = result.catagory;
-    });
+    refreshQs();
+
 }
 questionsetup();
 let sendArr;
+
+
+
+function refreshQs(){
+    getRandomQ(NAQT,KMcategoryArray, NAQTcategoryArray).then((temp)=>{
+            question = temp.question;
+            ans = temp.answer;
+            catagory = temp.catagory;
+    }).catch();
+    getRandomQ(NAQT,KMcategoryArray, NAQTcategoryArray).then((temp)=>{
+        
+        nextQuestion = temp.question;
+        nextAnswer = temp.answer;
+        nextCatagory = temp.catagory;
+        
+    }).catch();
+
+}
+   
+   
+    
+
 
 
 
@@ -46,6 +62,8 @@ module.exports = function(io){
             if(data){
           linkSocket(data.username, socket.id)
             }
+            NAQT ? io.to(socket.id).emit('category', {settings: NAQTcategoryArray, NAQT}) :io.to(socket.id).emit('category', {settings: KMcategoryArray, NAQT})
+            io.to(socket.id).emit('NAQT', {checked: NAQT});
             io.to(socket.id).emit('status', {questionEnd, sendArr, scoreList: getScoreList(), schoolScoreList: getSchoolScoreList(), user: data.user, settings:{NAQT: NAQT}} )
             
         })
@@ -91,6 +109,7 @@ module.exports = function(io){
         })
     
         socket.on('buzz', (data)=>{
+            if(!hasBuzzed){
             user = data.user;
             hasBuzzed = true;
             let anstime = 10.01;
@@ -112,6 +131,7 @@ module.exports = function(io){
 
 
             socket.broadcast.emit('buzz', data);
+            }
         })
     
         socket.on('submit', (data)=>{
@@ -119,22 +139,22 @@ module.exports = function(io){
             socket.broadcast.emit('submit', data);
         })
     
-        socket.on('next', ()=>{
+        socket.on('next', async ()=>{
             questionEnd = false;
             questionRead = false;
-            io.emit('next', {oldQuestion, answer: oldAnswer.split(",")[0].trim()});
+            io.emit('next', {oldQuestion, answer: oldAnswer.split(",")[0].trim(), question});
             oldQuestion = question
             question = nextQuestion
             oldAnswer = ans;
             ans = nextAnswer;
             oldCatagory = catagory
             catagory = nextCatagory;
-            nextQuestion = getRandomQ(NAQT).then(result =>{
-                nextQuestion = result.question;
-                nextAnswer = result.answer;
-                nextCatagory = result.catagory;
+            getRandomQ(NAQT,KMcategoryArray, NAQTcategoryArray).then((temp)=>{
+                nextQuestion = temp.question;
+                nextAnswer = temp.answer;
+                nextCatagory = temp.catagory;
+            }).catch();
             });
-        })
 
         socket.on('updateLive', (data)=>{
             live = `${data.user}:` + data.live
@@ -169,18 +189,19 @@ module.exports = function(io){
         })
         socket.on('NAQT', (data)=>{
             NAQT = data.checked
-            question =  getRandomQ(NAQT).then(result=>{
-                question = result.question;
-                ans = result.answer;
-                catagory = result.catagory;
-            });
-            nextQuestion = getRandomQ(NAQT).then(result=>{
-                nextQuestion = result.question;
-                nextAnswer = result.answer;
-                nextCatagory = result.catagory;
-            });
+            refreshQs();
             socket.broadcast.emit('NAQT', {checked: NAQT});
         })
-    })
-    
+        socket.on('category', (data)=>{
+            if(NAQT){
+                NAQTcategoryArray = data;
+                socket.broadcast.emit('category', {settings: NAQTcategoryArray, NAQT})
+            }else{
+                KMcategoryArray = data;
+                socket.broadcast.emit('category', {settings: KMcategoryArray, NAQT})
+
+            }
+            refreshQs();
+        })
+})
 }

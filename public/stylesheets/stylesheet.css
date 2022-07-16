@@ -8,9 +8,24 @@ html{
     justify-content: center;
 }
 table{
-    border: solid black;
-    border-radius: 20px;
+    border: 3px solid black;
+    border-radius: 10px;
     border-collapse: collapse;
+}
+#QandReport{
+    display:flex;
+    flex-flow:column;
+    align-items: flex-start;
+    justify-content:space-between;
+    min-height: 400px;
+}
+
+
+#report{
+    font-size: 0.5rem;
+    margin-top: 3px;
+    margin-bottom: 2px;
+    display:none;
 }
 #sLeaderboard{
     margin-right: 30px;
@@ -27,28 +42,52 @@ label{
 }
 .settings-section{
     display:flex;
-    flex-flow: row;
+    flex-flow: column;
     align-items: center;
+}
+
+#KMcategorySettings{
+    display:none;
 }
 
 
 th{
     border: solid black;
-    padding: 10px;
+    padding: 4px;
 }
 #settings-header{
     margin: 2px;
     font-size: 0.75rem;
 }
 
+
+
 #settings{
-    height: 150px;
+   min-height: 150px;
     border: 3px dotted black;
-    width: 85%;
+    width: 87%;
     margin-left: 10px;
     margin-top: 10px;
     
 
+}
+#questionSwitch{
+    display:flex;
+    flex-flow:row;
+    justify-content:center;
+}
+.switchType{
+    margin: 0px;
+}
+#switchKM{
+    border-left:none;
+}
+#switchNAQT{
+    border:2px solid black;
+}
+
+.header{
+    background-color: lightskyblue;
 }
 
 #Qdiv{
@@ -71,7 +110,7 @@ th{
     border-bottom: 1px solid black;
     padding: 5px;
     margin:1px;
-    height: 40px;
+    min-height: 25px;
     font-size: 0.75rem;
 }
 .qInfo{

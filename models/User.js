@@ -25,7 +25,11 @@ const UserSchema = new mongoose.Schema({
   school: {
     type: String,
     require: true,
+  },
+  token:{
+    type:String,
   }
+
 })
 
 module.exports = mongoose.model('User' ,UserSchema )

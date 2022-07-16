@@ -14,13 +14,25 @@ h1{
     margin-top:3px;
     margin-bottom: 3px;
 }
+
+#innerWrap{
+    display:flex;
+    flex-flow:row;
+}
 html{
     font-size: 1.5em;
     font-family: Arial;
 }
+.personalDiv{
+    display: flex;
+    flex-flow:row;
+    justify-content: center;
+}
 #chartDiv{
     display: flex;
     flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 

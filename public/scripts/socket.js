@@ -20,14 +20,10 @@ socket.on('status', (data)=>{
         qBox.innerHTML = (data.sendArr);
     }
     sortTable(data.scoreList, data.schoolScoreList);
-    NAQT.checked = data.settings.NAQT;
 
 })
 
-socket.on('NAQT',(data)=>{
-    NAQT.checked = data.checked;
-    console.log(data.checked);
-})
+
 
 socket.on('updateQ', (newQ)=>{
     qBox.innerHTML = newQ;
@@ -38,10 +34,12 @@ socket.on('defaultans', ()=>{
 
 socket.on('next', (data) =>{
     resetDefaultStates();
+    question = data.question;
     addQHistory(data.answer, data.oldQuestion);
     collapse();
     answer.innerHTML = "";
     catagory.innerHTML = "";
+    $('#report').css({"display": "none"});
     
 
 })
@@ -60,6 +58,9 @@ socket.on('timerToZero', (data)=>{
     hasBuzzed = false;
     answer.innerHTML = data.answer.split(",")[0];
     catagory.innerHTML = data.catagory;
+    $('#report').css({"display": "block"});
+    $('#newAnsBox').css({"visibility": "hidden"});
+    
 })
 socket.on('resetEndTimer', ()=>{
     timer.innerHTML = 10.001.toFixed(1);
@@ -81,6 +82,8 @@ socket.on('correct' , (data) =>{
     questionRead = true;
     qBox.innerHTML = data.question;
     sortTable(data.scoreList, data.schoolScoreList);
+    $('#report').css({"display": "block"});
+    $('#newAnsBox').css({"visibility": "hidden"});
     
 })
 socket.on('incorrect' , (data) =>{
@@ -90,6 +93,41 @@ socket.on('incorrect' , (data) =>{
     questionEnd = false;
     buzzer.enabled = true;
     buzzer.style.visibility = "visible"
+})
+
+
+socket.on('category', (data)=>{
+    if(data.NAQT){
+        for(var l = 0; l<NAQTcategoryArray.length; l +=1){
+            if((data.settings).indexOf(NAQTcategoryArray[l].value) > -1){
+                NAQTcategoryArray[l].checked = true;
+            }else{
+                NAQTcategoryArray[l].checked = false
+            }
+        }
+    }else{
+        for(var d = 0; d<KMcategoryArray.length; d +=1){
+            if(data.settings.indexOf(KMcategoryArray[d].value) > -1){
+                KMcategoryArray[d].checked = true;
+            }else{
+                KMcategoryArray[d].checked = false;
+            }
+        }
+    }
+})
+
+socket.on('NAQT', (data)=>{
+    if(data.checked){
+        switchNAQT.disabled = true;
+        switchKM.disabled = false;
+        $('#KMcategorySettings').css({"display": "none"})
+        $('#NAQTcategorySettings').css({"display": "block"})
+    }else{
+        switchNAQT.disabled = false;
+    switchKM.disabled = true;
+    $('#KMcategorySettings').css({"display": "block"})
+    $('#NAQTcategorySettings').css({"display": "none"})
+    }
 })
 
 

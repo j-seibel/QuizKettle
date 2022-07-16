@@ -6,8 +6,8 @@ const SchoolSchema = new mongoose.Schema({
     require : true,
   },
   members: {
-    type: Number,
-    default: 0,
+    type: Array,
+    default: [],
   },
   score: {
     type: Number,

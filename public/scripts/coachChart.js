@@ -1,8 +1,5 @@
+const chartDiv = document.getElementById('chartDiv');
 
-
-
-let user;
-let history;
 
 
 const day = 24 * 60 * 60 * 1000;
@@ -11,115 +8,70 @@ const month = 30 * day;
 const year = 365 *day;
 let timeArr = [week,month,year];
 const d = new Date();
+let playerdata = [];
+let players;
+let ctxArr = [];
 
 
-wrapper();
+init();
+async function init(){
+    await setup();
+    charts();
 
-
-async function wrapper(){
-   
-
-    await resumeSession();
-    history = await axios.post('./stats/history', {
-        username: user.username
-    });
-    const ctx2 = document.getElementById('myChart2').getContext('2d');
-    const ctx = document.getElementById('myChart').getContext('2d');
-    let data2 = naqtChart(history);
-    let data = kmChart(history);
-
-    const myChart2 = new Chart(ctx2, {
-        type: 'radar',
-        data: data2,
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'NAQT Stats'
-                }
-            },
-            transitions: {
-                show:{
-                    animations:{
-                        r:{
-                            from: 0
-                        } 
-                    }
-                },
-                hide:{
-                    animations:{
-                        r:{
-                            to: 0
-                        }
-                    }
-                }
-            },  
-            scales: {
-                r: {
-                    angleLines: {
-                        display: false
-                    },
-                    suggestedMin: 0,
-                    suggestedMax: 100
-                }
-            },
-            responsive: false,
-          elements: {
-            line: {
-              borderWidth: 3
-            }
-          }
-        },
-    
-});
-
-    const myChart = new Chart(ctx, {
-        type: 'radar',
-        data: data,
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Knowelage Master Stats'
-                }
-            },
-            transitions: {
-                show:{
-                    animations:{
-                        r:{
-                            from: 0
-                        } 
-                    }
-                },
-                hide:{
-                    animations:{
-                        r:{
-                            to: 0
-                        }
-                    }
-                }
-            },  
-            scales: {
-                r: {
-                    angleLines: {
-                        display: false
-                    },
-                    suggestedMin: 0,
-                    suggestedMax: 100
-                }
-            },
-            responsive: false,
-          elements: {
-            line: {
-              borderWidth: 3
-            }
-          }
-        },
-    
-});
-   
 }
 
+
+async function setup(){
+    await resumeSession();
+     players = (await axios.post('/stats/coach/players',{
+        school: user.school
+    })).data;
+    console.log(players);
+    for(var i = 0; i< players.length; i+=1){
+        playerdata.push( await axios.post('../stats/history', {
+            username: players[i]
+        }));
+    }
+}
+        
+    function charts(){
+        console.log(playerdata);
+        console.log(players);
+        for(var j = 0; j < playerdata.length; j += 1){
+            let personalDiv = document.createElement('div');
+            personalDiv.setAttribute('class' , 'personalDiv');
+            let canvas = document.createElement('canvas');
+            canvas.setAttribute('id', `km${players[j]}`);
+            canvas.setAttribute('width', '400');
+            canvas.setAttribute('height', '400');
+            let canvasContainer = document.createElement('div');
+            canvasContainer.appendChild(canvas);
+            personalDiv.appendChild(canvasContainer);
+            let canvas2 = document.createElement('canvas');
+            canvas2.setAttribute('id', `natq${players[j]}`);
+            canvas2.setAttribute('width', '400');
+            canvas2.setAttribute('height', '400');
+            let canvasContainer2 = document.createElement('div');
+            canvasContainer2.appendChild(canvas2);
+            personalDiv.appendChild(canvasContainer2);
+            chartDiv.appendChild(personalDiv);
+            
+
+        
+        ctxArr.push({kmctx: document.getElementById(`km${players[j]}`).getContext('2d'), naqtctx: document.getElementById(`natq${players[j]}`), kmdata: kmChart(playerdata[j]), natqdata: naqtChart(playerdata[j])});
+        console.log(ctxArr);
+        }
+
+        for(var i =0; i< ctxArr.length; i+=1){
+            renderChart(ctxArr[i].kmctx, ctxArr[i].kmdata, players[i], 'Knowelage Master');
+            renderChart(ctxArr[i].naqtctx, ctxArr[i].natqdata, players[i], "NAQT");
+
+        }
+        console.log('done!');
+        
+
+    }
+    
 
 
 async function resumeSession(){
@@ -139,7 +91,7 @@ async function resumeSession(){
     let natqyearData = [];
     natqhistory = history.data.naqtquestionHistory;
     let natqData = [natqweekData, natqmonthData, natqyearData];
-    let naqtlabels = [ 'History', 'Geography', 'Fine Arts', 'Science', 'Literature', 'Mythology/Philosophy/Religion', 'Social Studies / Current Events', 'Trash'];
+    let naqtlabels = [ 'History', 'Geography', 'Fine Arts', 'Science', 'Literature', 'Myth/Philo/Relig', 'Social/Curr Events', 'Trash'];
     for(var i = 0; i< naqtlabels.length; i += 1){
         for(var j = 0; j< natqData.length; j +=1){
             natqData[j].push( (((natqhistory.filter((item)=> item.catagory === `${naqtlabels[i]}` && item.correct === true && d.getTime() - item.timestamp < timeArr[j]).length) / natqhistory.filter((item)=> item.catagory === `${naqtlabels[i]}` && d.getTime() - item.timestamp < timeArr[j]).length)* 100).toFixed(2));
@@ -244,4 +196,56 @@ async function resumeSession(){
 
  }
 
- 
+
+ function renderChart(ctx, data , username, km){
+    new Chart(ctx, {
+        type: 'radar',
+        data: data,
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: `${username}'s ${km} stats`
+                }
+            },
+            transitions: {
+                show:{
+                    animations:{
+                        r:{
+                            from: 0
+                        } 
+                    }
+                },
+                hide:{
+                    animations:{
+                        r:{
+                            to: 0
+                        }
+                    }
+                }
+            },  
+            scales: {
+                r: {
+                    angleLines: {
+                        display: false
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 100,
+                    scaleFontSize: 10,
+                }
+            },
+            responsive: false,
+          elements: {
+            line: {
+              borderWidth: 3
+            }
+          }
+        },
+    
+});
+
+
+
+ }
+
+

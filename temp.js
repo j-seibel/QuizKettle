@@ -1,6 +1,7 @@
 const jsondoc = require('./questions.json');
 const qModel = require('./models/NAQT');
 const histories = require('./models/userHistory')
+const Users = require('./models/User');
 
 async function addNATQ(){
    const question = jsondoc.data.tossups;
@@ -16,10 +17,19 @@ async function addNATQ(){
 }
 
 async function addFeild(){
-   await histories.updateMany({ $set: {"naqtquestionHistory": []} },)
+   await Users.updateMany({ $set: {"token": ""} },)
 }
-//addFeild();
+addFeild();
 //addNATQ()
+
+
+
+
+
+
+
+
+
 
 
 

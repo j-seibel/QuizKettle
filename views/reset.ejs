@@ -1,0 +1,46 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"   type= "text/css" href="../../stylesheets/register.css">
+    <title>Reset Password</title>
+</head>
+
+<body>
+    <% if (token) { %>
+        <script>
+           var clientToken = '<%= token %>'        
+        </script>
+   <% } %>
+    <div id=logindiv>
+        <h1 id = header>Reset Password</h1>
+        <form id='loginForm'>
+            <div id=password class = 'formWrapper'>
+                <label for='password' class='formElLabel'>New Password</label><br>
+                <input type='password' class='formEl' name=password required placeholder = "Password"><br>
+                <p id = passwordError class = error></p>
+            </div>
+            <div id=confirmPassword class = 'formWrapper'>
+                <label for='confirmPassword' class='formElLabel' name= confirmPassword> Repeat New Password</label><br>
+                <input type='password' class='formEl' name=confirmPassowrd required placeholder = "I dont want you forgetting"><br><br>
+                <p id = confirmError class = error></p>
+            </div>
+            <div id=submit>
+                <input type='submit' value='Submit'>
+            </div>
+        </form>
+    </div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../../scripts/reset.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+    integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</html>

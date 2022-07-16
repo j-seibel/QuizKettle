@@ -2,111 +2,174 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name = "description" content = "QuizKettle is a online multiplayer Quizbowl aplication that focuses on improving using data driven processes.">
     <link rel="stylesheet" href="/stylesheets/stylesheet.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"
+        integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://kit.fontawesome.com/b1eeecd7e8.js" crossorigin="anonymous"></script>
-<title> Quizkettle Home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <title> Quizkettle Home</title>
 </head>
 
 <body>
     <header>
     </header>
     <nav>
-        <a href = "/stats">Stats</a>
-        <a href = "/login">Login</a>
+        <a href="/stats">Stats</a>
+        <a href="/login">Login</a>
         <h1>QuizKettle</h1>
-        <a href = "/"> Info</a>
-        <a href = "/">Donate </a>
+        <a href="/"> Info</a>
+        <a href="/">Donate </a>
     </nav>
-    <div id =bigContainer>
-    <div id = mainContainer>
-    <div id = "ansDiv">
-        <button class = button id = "buzz" onclick = 'buzz()'>Buzz</button> 
-        <span></span>
-        <input id = "ansBox" type="text" placeholder = "Type Answer Here" disabled = 'true'></input>
-        <button class = button id= next onclick = 'nextQ()'>Next</button>
-        <div id = 'timer_div'><p id = timer>10.00</p></div>
-    </div>
-    <div id="wrapper" display="flex" >
-        <div class = "left-table settings">
-        <table id="sLeaderboard" class="lb">
-            <thead>
-                <tr>
-                    <th scope="col"><b>School</b> </th>
-                    <th scope="col"><b>Score</b></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th class = "school firstplace">school 1</th>
-                    <th class = " schoolScore firstplace">score 1</th>
-                </tr>
-                <tr>
-                    <th class = "school secondplace">school 2</th>
-                    <th class = " schoolScore secondplace">score 2</th>
-                </tr>
-                <tr>
-                    <th class = "school thirdplace">school 3</th>
-                    <th class = " schoolScore thirdplace">score 3</th>
-                </tr>
-            </tbody>
-        </table>
-        <div id = "settings">
-            <h3 id = "settings-header">Settings</h3>
-            <div class="settings-section">
-            <label for="NAQT" ><b>Enable NAQT Questions</b></label>
-            <input type="checkbox" name="NAQT" id ='NAQT'>
+    <div id=bigContainer>
+        <div id=mainContainer>
+            <div id="ansDiv">
+                <button class=button id="buzz" onclick='buzz()'>Buzz</button>
+                <span></span>
+                <input id="ansBox" type="text" placeholder="Type Answer Here" disabled='true'></input>
+                <button class=button id=next onclick='nextQ()'>Next</button>
+                <div id='timer_div'>
+                    <p id=timer>10.00</p>
+                </div>
+            </div>
+            <div id="wrapper" display="flex">
+                <div class="left-table settings">
+                    <table id="sLeaderboard" class="lb">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="header"><b>School</b> </th>
+                                <th scope="col" class="header"><b>Score</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="school firstplace">school 1</th>
+                                <th class=" schoolScore firstplace">score 1</th>
+                            </tr>
+                            <tr>
+                                <th class="school secondplace">school 2</th>
+                                <th class=" schoolScore secondplace">score 2</th>
+                            </tr>
+                            <tr>
+                                <th class="school thirdplace">school 3</th>
+                                <th class=" schoolScore thirdplace">score 3</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="settings">
+                        <h3 id="settings-header">Settings</h3>
+                        <div class="settings-section">
+                            <div id="questionSwitch">
+                                <button onclick="enableNATQ()" class="switchType" id="switchNAQT" value=NAQT disabled>NAQT</button>
+                                <button onclick = "enableKM()" class="switchType" id="switchKM" value="KM" >Knowlege Master</button>
+                            </div>
+                            <div id="KMcategorySettings">
+                                <label  for="KMHistory"><b>History</b></label>
+                                <input value = "History" class="KMinput" type="checkbox" name="KMHistory" id='KMHistory' checked>
+                                <label for="KMGeography"><b>Geography</b></label>
+                                <input value = "Geography" class="KMinput" type="checkbox" name="KMGeography" id='KMGeography' checked><br>
+                                <label for="KMMath"><b>Math</b></label>
+                                <input value = "Math" class="KMinput" type="checkbox" name="KMMath" id='KMMath' checked>
+                                <label for="KMScience"><b>Science</b></label>
+                                <input value = "Science" class="KMinput" type="checkbox" name="KMScience" id='KMScience' checked><br>
+                                <label for="KMLit"><b>Literature</b></label>
+                                <input value = "Lit" class="KMinput" type="checkbox" name="KMLit" id='KMLit' checked class="KMinput">
+                                <label for="KMGrammar"><b>Grammar</b></label>
+                                <input value = "Grammer" class="KMinput" type="checkbox" name="KMGrammar" id='KMGrammar' checked><br>
+                                <label for="KMOther"><b>Other</b></label>
+                                <input value = "Other" class="KMinput" type="checkbox" name="KMOther" id='KMOther' checked>
+                            </div>
+                            <div id="NAQTcategorySettings">
+                                <label for="NAQTHistory"><b>History</b></label>
+                                <input value = "History" class = "NAQTinput" type="checkbox" name="NAQTHistory" id="NAQTHistory" checked>
+                                <label for="NAQTScience"><b>Science</b></label>
+                                <input value = "Science" class = "NAQTinput" type="checkbox" name="NAQTScience" id="NAQTScience" checked><br>
+                                <label for="NAQTGeography"><b>Geography</b></label>
+                                <input value = "Geography" class = "NAQTinput" type="checkbox" name="NAQTGeography" id="NAQTGeography" checked>
+                                <label for="NAQTFineArts"><b>Fine Arts</b></label>
+                                <input value = "Fine Arts" class = "NAQTinput" type="checkbox" name="NAQTFineArts" id="NAQTFineArts" checked><br>
+                                <label for="NAQTCurrentEvents"><b>CurrentEvents</b></label>
+                                <input value = "Current Events" class = "NAQTinput" type="checkbox" name="NAQTCurrentEvents" id="NAQTCurrentEvents" checked>
+                                <label for="NAQTMythology"><b>Mythology</b></label>
+                                <input value = "Mythology" class = "NAQTinput" type="checkbox" name="NAQTMythology" id="NAQTMythology" checked><br>
+                                <label for="NAQTReligion"><b>Religion</b></label>
+                                <input value = "Religion" class = "NAQTinput" type="checkbox" name="NAQTReligion" id="NAQTReligion" checked>
+                                <label for="NAQTPhilosophy"><b>Philosophy</b></label>
+                                <input value = "Philosophy" class = "NAQTinput" type="checkbox" name="NAQTPhilosophy" id="NAQTPhilosophy" checked><br>
+                                <label for="NAQTSocailScience"><b>Social Science</b></label>
+                                <input value = "Social Studies" class = "NAQTinput" type="checkbox" name="NAQTSocailScience" id="NAQTSocailScience" checked>
+                                <label for="NAQTLiterature"><b>Literature</b></label>
+                                <input value = "Literature" class = "NAQTinput" type="checkbox" name="NAQTLiterature" id="NAQTLiterature" checked><br>
+                                <label for="NAQTTrash"><b>Trash</b></label>
+                                <input value = "Trash" class = "NAQTinput" type="checkbox" name="NAQTTrash" id="NAQTTrash" checked>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div id="Qdiv">
+                    <div id="qInfo">
+                        <p class=qInfor id="answer"> </p>
+                        <p class=qInfo id='catagory'></p>
+                    </div>
+                    <div id=QandReport>
+                        <p id="questionP"></p>
+                        <p class="report " id='report'>Answer not right? <button class="report"
+                                id=reportButton>Report</button> <input id="newAnsBox" class="report" type="text"
+                                placeholder="Submit addional correct answer"></p>
+                    </div>
+                </div>
+                <table id="pLeaderboard" class="lb">
+                    <thead>
+                        <tr>
+                            <th scope="col" class='header'>Player </th>
+                            <th scope="col" class='header'> Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="Player firstplace"></th>
+                            <th class="Score firstplace"></th>
+                        </tr>
+                        <tr>
+                            <th class="Player secondplace"></th>
+                            <th class="Score secondplace"></th>
+                        </tr>
+                        <tr>
+                            <th class="Player thirdplace"></th>
+                            <th class="Score thirdplace"></th>
+                        </tr>
+                        <tr>
+                            <th class="Player"></th>
+                            <th class="Score "></th>
+                        </tr>
+                        <tr>
+                            <th class="Player"></th>
+                            <th class=Score></th>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
         </div>
-    </div>
-        <div id = "Qdiv">
-            <div id = "qInfo"><p class = qInfor id = "answer"> </p><p class = qInfo id = 'catagory'></p></div>
-            <p id="questionP"></p>
-        </div>
-        <table id="pLeaderboard" class="lb">
-            <thead>
-                <tr>
-                    <th scope="col" >Player </th>
-                    <th scope="col"> Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th class = "Player firstplace"></th>
-                    <th class = "Score firstplace"></th>
-                </tr>
-                <tr>
-                    <th class = "Player secondplace"></th>
-                    <th class = "Score secondplace"></th>
-                </tr>
-                <tr>
-                    <th class = "Player thirdplace"></th>
-                    <th class= "Score thirdplace"></th>
-                </tr>
-                <tr>
-                    <th class="Player"></th>
-                    <th class = "Score "></th>
-                </tr>
-                <tr>
-                    <th class="Player"></th>
-                    <th class = Score></th>
-                </tr>
-            </tbody>
-        </table>
+        <hr style='background-color: black; height: 3px; width: 100%; color: black; margin-top: 10px'>
+        <div class='history-container' id="history-container">
 
+        </div>
     </div>
-    </div>
-    <hr style = 'background-color: black; height: 3px; width: 100%; color: black; margin-top: 10px'>
-    <div class = 'history-container' id = "history-container">
-        
-    </div>
-    </div>
-    
+
 </body>
-<script src = "scripts/tablesort.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src = "scripts/index.js"></script>
-<script src = "scripts/validator.js"></script>
+<script src="scripts/tablesort.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+    integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="scripts/index.js"></script>
 <script src="scripts/socket.js"></script>
 
 

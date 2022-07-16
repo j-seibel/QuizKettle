@@ -9,12 +9,18 @@ const history_div = document.getElementById('history-container')
 const live = document.getElementById('live')
 const answer = document.getElementById('answer');
 const catagory = document.getElementById('catagory');
-const NAQT = document.getElementById('NAQT')
+const reportBox = document.getElementById('newAnsBox');
+const switchKM = document.getElementById('switchKM');
+const switchNAQT = document.getElementById('switchNAQT')
+const KMcategoryArray = document.getElementsByClassName('KMinput');
+const NAQTcategoryArray = document.getElementsByClassName('NAQTinput')
 let user;
 let hasBuzzed = false;
 let questionEnd = false;
 let questionRead = false;
 let chat = false;
+let buzzedNow = false;
+let totalquestion;
 
 
 
@@ -40,8 +46,9 @@ function nextQ() {
 //handels the users buzz timeout is buzzer timer
 
 function buzz() {
-    if(!questionEnd && !hasBuzzed ){
+    if(!questionEnd && !hasBuzzed && !chat ){
     ibox.disabled = false;
+    buzzedNow = true;
     qBox.innerHTML += `<i class="fa-solid fa-stop"></i>`;
     history_div.innerHTML += `<div class = ${user.username}> <p class = "historyEl"> ${user.username}:</p> </div>`;
     hasBuzzed = true;
@@ -73,6 +80,7 @@ function submitans() {
     ibox.value = "";
     ibox.disabled = true;
     ibox.blur();
+    buzzedNow = false;
     
 }
 
@@ -91,15 +99,24 @@ function submitChat(){
 ibox.onkeydown = (e) => {
     if (e.keyCode === 13) {
         if(!chat){
-        submitans();
-        }else{
-        submitChat();
-            
+            submitans();
+    }else{
+        if(!buzzedNow)
+            submitChat();
         }
     }
 
 }
+reportBox.onkeydown = async (e) => {
+    if (e.keyCode === 13) {
+        const newAns = reportBox.value;
+        await axios.post('/report', {question, edit: newAns} );
+        reportBox.style.visibility = "hidden";
+        reportBox.value = "";
 
+    }
+
+}
 
 
 document.body.onkeydown = (e) => {
@@ -161,10 +178,64 @@ function collapse(){
     }
 }
 
-NAQT.addEventListener('input', (e)=>{
-    socket.emit('NAQT', {checked: NAQT.checked})
-    NAQT.blur();
+for(var i = 0; i< KMcategoryArray.length; i +=1){
+    KMcategoryArray[i].addEventListener('input', ()=>{
+        let checkstatus = [];
+        for(var j =0; j<KMcategoryArray.length; j+=1){
+            if(KMcategoryArray[j].checked)
+            checkstatus.push(KMcategoryArray[j].value)
+        }
+        socket.emit("category", checkstatus)
+    })
+}
+
+for(var i = 0; i< NAQTcategoryArray.length; i +=1){
+    NAQTcategoryArray[i].addEventListener('input', ()=>{
+        let checkstatus = [];
+        for(var j =0; j<NAQTcategoryArray.length; j+=1){
+            if(NAQTcategoryArray[j].checked)
+            checkstatus.push(NAQTcategoryArray[j].value)
+        }
+        socket.emit("category", checkstatus)
+    })
+}
+
+function enableNATQ(){
+    switchNAQT.disabled = true;
+    switchKM.disabled = false;
+    $('#KMcategorySettings').css({"display": "none"})
+    $('#NAQTcategorySettings').css({"display": "block"})
+    socket.emit("NAQT", {checked: true});
+
+}
+
+function enableKM(){
+    switchNAQT.disabled = false;
+    switchKM.disabled = true;
+    $('#KMcategorySettings').css({"display": "block"})
+    $('#NAQTcategorySettings').css({"display": "none"})
+    socket.emit("NAQT", {checked: false});
+}
+
+
+$('#reportButton').on('click',(e)=>{
+    if(reportBox.style.visibility === 'hidden'){
+    $('#newAnsBox').css({"visibility": "visible"});
+    $('#newAnsBox').focus();
+    }else{
+        async function wrapper(){
+        const newAns = reportBox.value;
+        await axios.post('/report', {question, edit: newAns} );
+        reportBox.style.visibility = "hidden";
+        reportBox.value = ""
+        }
+        wrapper();
+
+    }
 })
+
+
+
 
 resumeSession()
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href = "../stylesheets/login.css" type = text/css>
+    <title>Forgot Password</title>
+</head>
+<body>
+
+    <div id = logindiv>
+        <h1>Forgot Password</h1>
+        <form  id = 'loginForm'>
+        
+            <div id=email class = 'formWrapper'>
+                <label for='email' class='formElLabel'> Email</label><br>
+                <input id = 'emailInput' type='email' class='formEl' name=email required placeholder = "Email"><br>
+                <p id = emailError class = error></p>
+            </div>
+            <input type = "submit" value = "Next">
+        </form>
+    
+        <div class = 'sent' id="sent">
+            <h2 id = 'msg'>Email has been sent! If you do not recive the email check in your spam folder and make sure the email is correct.</h2>
+            <a id = "back" href = '#'>Change Email</a>
+        </div>
+        
+        
+    </div>
+    
+   
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src = "../scripts/forgot.js"> </script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+      integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+</html>
