@@ -1,4 +1,4 @@
-
+// Javascript for main page
 const qBox = document.getElementById('questionP');
 const form = document.querySelector('.ans-form');
 const ibox = document.getElementById('ansBox');
