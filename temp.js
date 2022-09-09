@@ -1,3 +1,4 @@
+//adds questions to database programaticly
 const jsondoc = require('./questions.json');
 const qModel = require('./models/NAQT');
 const histories = require('./models/userHistory')

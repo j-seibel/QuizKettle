@@ -1,3 +1,4 @@
+//Loads in questions on server start
 const Question = require('./models/Question');
 const NAQT = require('./models/NAQT')
 var questionArr;

@@ -1,3 +1,4 @@
+//records the history of answers
 const questionHistory = require('./models/userHistory');
 
 

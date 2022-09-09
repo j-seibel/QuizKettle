@@ -1,3 +1,4 @@
+// validates the answer with regex
 function validateNAQT(playerAnswer , ans){
  //   console.log(ans);
     playerAnswer = playerAnswer.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gim, "");

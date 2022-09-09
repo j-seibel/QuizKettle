@@ -1,3 +1,5 @@
+//main server logic
+
 const express = require('express');
 //const temp = require('./temp');
 const app = express(); 
