@@ -1,6 +1,6 @@
 
 
-
+// This file holds the setup for displaying the chart on the stats page
 let user;
 let history;
 
