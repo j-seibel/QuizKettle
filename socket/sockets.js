@@ -1,3 +1,5 @@
+
+//socket logic
 const validate = require('../validator');
 const validateNAQT = require('../NAQTvalidator');
 const {getRandomQ, loadQuestions} = require('../getRandomQ');
