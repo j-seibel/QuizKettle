@@ -1,3 +1,5 @@
+//route for registering and logging into the site
+
 const express = require('express');
 const User = require('../models/User');
 const School = require('../models/Schools');
