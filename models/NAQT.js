@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-//sets up collection for questions
+//sets up database collection for questions of the NAQT style/
 
 const NAQTQuestionSchema = new mongoose.Schema({
   question: {

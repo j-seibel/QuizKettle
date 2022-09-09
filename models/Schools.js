@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-//sets up collection for schools
+//sets up collection for schools.
 const SchoolSchema = new mongoose.Schema({
   name: {
     type: String,

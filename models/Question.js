@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-//sets up collection for questions
+//sets up collection for questions of KnolageMaster style
 
 const QuestionSchema = new mongoose.Schema({
   question: {
