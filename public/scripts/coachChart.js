@@ -1,3 +1,6 @@
+
+//Displays all charts for a registered team, allowing for easy comparison
+
 const chartDiv = document.getElementById('chartDiv');
 
 
