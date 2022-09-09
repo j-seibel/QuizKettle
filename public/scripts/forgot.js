@@ -1,3 +1,5 @@
+//Allows user to submit a forgot password request and evetualy reset the password
+
 var email = '';
 const back = document.getElementById('back');
 const form = document.getElementById('loginForm');
